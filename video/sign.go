@@ -42,7 +42,7 @@ func (s *Signature) Sign() string {
 		}
 
 		if s.sourceContext != "" {
-			original = fmt.Sprintf("%s&sourceContext=%s", original, s.sourceContext)
+			original = fmt.Sprintf("%s&sourceContext=%s", original, url.QueryEscape(s.sourceContext))
 		}
 
 		if s.procedure != "" && s.taskNotifyMode != "" && s.taskPriority != nil {
@@ -52,16 +52,12 @@ func (s *Signature) Sign() string {
 		if s.oneTimeValid != nil {
 			original = fmt.Sprintf("%s&oneTimeValid=%d", original, *s.oneTimeValid)
 		}
-		fmt.Println(original)
-
-		//encode
-		encodeOriginal := url.PathEscape(original)
 
 		//签名
 		signatureTmp := common.HmacSha1(s.SecretKey, original)
 
 		//拼接
-		temp := fmt.Sprintf("%s%s", signatureTmp, encodeOriginal)
+		temp := fmt.Sprintf("%s%s", signatureTmp, original)
 
 		//结果字符串
 		signStr = base64.StdEncoding.EncodeToString([]byte(temp))
