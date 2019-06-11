@@ -1,6 +1,7 @@
 package test
 
 import (
+	"encoding/json"
 	"fmt"
 	"tencent_lib/video"
 	"testing"
@@ -18,21 +19,24 @@ func TestSignStr(t *testing.T) {
 	taskPriority := int64(0)
 	isOpen := false
 	signature := &video.Signature{
-		SecretId:         "AKIDh7ITUGxIyOnxucjPXBallkZIn45stdeQ",
-		SecretKey:        "mLhohMmxseBSUGn57tUv62kETdXJp67s",
+		SecretId:         "AKIDh7ITUGxIyOnxu",
+		SecretKey:        "mLhohMmxseBSUGn57tUv62kE",
 		CurrentTimeStamp: time.Now().Unix(),
 		ExpireTime:       time.Now().AddDate(0, 0, 5).Unix(),
-		Random:           "155962046645678",
+		Random:           "1559620466456788899",
 	}
 	signature.SetClassID(&classID)
-	signature.SetSourceContext("{\"type\":\"1\"}")
+	a := struct {
+		Type string `json:"type"`
+	}{
+		Type: "1",
+	}
+	aBytes, _ := json.Marshal(a)
+	signature.SetSourceContext(string(aBytes))
 	signature.SetPtt(procedure, taskNotifyMode, &taskPriority)
 	signature.SetOneTimeValid(&isOpen)
 	// secretId=xx&currentTimeStamp=1559620466&expireTime=1559620466&random=1559620466&classId=0&sourceContext={"type":"1"}&procedure=x&taskNotifyMode=x&taskPriority=0&oneTimeValid=0
 	// 4Z6mmC2CVUciH5tXv9sSAp+PQLBzZWNyZXRJZD14eCZjdXJyZW50VGltZVN0YW1wPTE1NTk2MjA0NjYmZXhwaXJlVGltZT0xNTU5NjIwNDY2JnJhbmRvbT0xNTU5NjIwNDY2JmNsYXNzSWQ9MCZzb3VyY2VDb250ZXh0PSU3QiUyMnR5cGUlMjI6JTIyMSUyMiU3RCZwcm9jZWR1cmU9eCZ0YXNrTm90aWZ5TW9kZT14JnRhc2tQcmlvcml0eT0wJm9uZVRpbWVWYWxpZD0w
-
-	// %7B%22type%22%3A%221%22%7D
-	// %7B%22type%22%3A%221%22%7D
 
 	result := signature.Sign()
 

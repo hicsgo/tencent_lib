@@ -4,7 +4,8 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/url"
-	"tencent_lib/common"
+
+	"github.com/hicsgo/tencent_lib/common"
 )
 
 /*
