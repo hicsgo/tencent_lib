@@ -23,7 +23,7 @@ func TestSignStr(t *testing.T) {
 		SecretKey:        "mLhohMmxseBSUGn57tUv62kE",
 		CurrentTimeStamp: time.Now().Unix(),
 		ExpireTime:       time.Now().AddDate(0, 0, 5).Unix(),
-		Random:           "1559620466456788899",
+		Random:           "1559620466456788899488994889941",
 	}
 	signature.SetClassID(&classID)
 	a := struct {
