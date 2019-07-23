@@ -3,6 +3,7 @@ package test
 import (
 	"encoding/json"
 	"fmt"
+	"tencent_lib/img"
 	"tencent_lib/video"
 	"testing"
 	"time"
@@ -41,4 +42,19 @@ func TestSignStr(t *testing.T) {
 	result := signature.Sign()
 
 	fmt.Println(result)
+}
+
+func TestImgSignStr(t *testing.T) {
+	img := &img.Signature{
+		SecretId:         "AKIDUfLUEUigQiXqm7CVSspKJnuaiIKt",
+		SecretKey:        "bLcPnl88WU30VY57ipRhSePfPdOf",
+		AppID:            "1250000000",
+		Bucket:           "examplebucket",
+		CurrentTimeStamp: 1437995644,
+		ExpireTime:       1437995704,
+		Random:           "2081660421",
+		FilePath:         "/1250000000/examplebucket/tencent_test.jpg",
+	}
+	a := img.Sign()
+	fmt.Println(a)
 }

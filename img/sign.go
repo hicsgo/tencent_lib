@@ -17,7 +17,7 @@ type Signature struct {
 	CurrentTimeStamp int64  //当前 Unix 时间戳。
 	ExpireTime       int64  //签名到期 Unix 时间戳。expireTime = currentTimeStamp + 签名有效时长,签名有效时长最大取值为7776000 ，即90天。
 	Random           string //构造签名明文串的参数，无符号32位随机数。
-	fileID           string
+	FilePath         string
 }
 
 /*
@@ -27,7 +27,7 @@ func (s *Signature) Sign() string {
 	signStr := ""
 	if s != nil {
 		//待签名字符串
-		original := fmt.Sprintf("a=%s&b=%s&k=%s&e=%d&t=%d&r=%s&f=%s", s.AppID, s.Bucket, s.SecretId, s.ExpireTime, s.CurrentTimeStamp, s.Random, s.fileID)
+		original := fmt.Sprintf("a=%s&b=%s&k=%s&e=%d&t=%d&r=%s&f=%s", s.AppID, s.Bucket, s.SecretId, s.ExpireTime, s.CurrentTimeStamp, s.Random, s.FilePath)
 
 		//签名
 		signatureTmp := common.HmacSha1(s.SecretKey, original)
